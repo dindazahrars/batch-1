@@ -3,13 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use App\Models\Products;
 use Illuminate\Http\Request;
 
 class ProductsController extends Controller
 {
     public function index() {
-        $data = Products::all();
+        $data = product::all();
 
         return response($data, 200);
     }
@@ -17,7 +16,7 @@ class ProductsController extends Controller
 
     public function store(Request $request) {
 
-        $products = new products();
+        $products = new product();
 
         $products->name = $request->name;
         $products->email = $request->email;
@@ -32,7 +31,7 @@ class ProductsController extends Controller
 
     public function update(Request $request, $id) {
 
-        $products = products::find($id);
+        $products = Product::find($id);
 
         $products->name = $request->name;
         $products->email = $request->email;
@@ -46,14 +45,14 @@ class ProductsController extends Controller
 
     public function show ($id) {
 
-        $products = Products::findOrFail($id);
+        $products = Product::findOrFail($id);
 
         return response($products, 200);
     }
 
     public function destroy($id) {
 
-        $products = Products::findOrFail($id);
+        $products = Product::findOrFail($id);
 
         $products>delete();
 
