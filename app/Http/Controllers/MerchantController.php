@@ -16,6 +16,12 @@ class MerchantController extends Controller
 
     public function store(Request $request) {
 
+        $request->validate([
+            'name' => ['required'],
+            'email' => ['email', 'required'],
+            'password' => ['required'],
+        ]);
+
         $merchant = new Merchant();
 
         $merchant->name = $request->name;

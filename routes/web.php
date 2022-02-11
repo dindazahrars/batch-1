@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MerchantController;
+use App\Http\Controllers\ProductsController;
+use App\Models\Merchant;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,16 +22,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/home', [HomeController::class, 'index']);
+    Route::resource('merchant', MerchantController::class)->except('create','edit');
 
-Route::get('/merchant', [MerchantController::class, 'index']);
-Route::post('/merchant', [MerchantController::class, 'store']);
-Route::put('/merchant/{id}/update', [MerchantController::class, 'update']);
-Route::put('/merchant/{id}', [MerchantController::class, 'show']);
-Route::delete('/merchant/{id}', [MerchantController::class, 'destroye']);
+    Route::resource('product', ProductsController::class)->except('create','edit');
 
-Route::get('/products', [MerchantController::class, 'index']);
-Route::post('/products', [MerchantController::class, 'store']);
-Route::put('/products/{id}/update', [MerchantController::class, 'update']);
-Route::put('/products/{id}', [MerchantController::class, 'show']);
-Route::delete('/products/{id}', [MerchantController::class, 'destroye']);
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

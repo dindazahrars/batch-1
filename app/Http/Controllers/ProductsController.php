@@ -19,9 +19,8 @@ class ProductsController extends Controller
         $products = new product();
 
         $products->name = $request->name;
-        $products->email = $request->email;
         $products->category = $request->category;
-        $products->status = $request->status;
+        $products->thumbnail_image = $request->thumbnail_image ?? 'image.jpg';
 
         $products->save();
 
@@ -31,12 +30,11 @@ class ProductsController extends Controller
 
     public function update(Request $request, $id) {
 
-        $products = Product::find($id);
+        $products = Product::findorfail($id);
 
         $products->name = $request->name;
-        $products->email = $request->email;
         $products->category = $request->category;
-        $products->status = $request->status;
+        $products->thumbnail_image = $request->thumbnail_image ?? 'image.jpg';
 
         $products->save();
 
@@ -54,7 +52,7 @@ class ProductsController extends Controller
 
         $products = Product::findOrFail($id);
 
-        $products>delete();
+        $products->delete();
 
         return response('Data Berhasil Dihapus!', 200);
 
