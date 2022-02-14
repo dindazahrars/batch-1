@@ -5,56 +5,61 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
-class ProductsController extends Controller
+class ProductController extends Controller
 {
     public function index() {
-        $data = product::all();
+        $data = Product::all();
 
         return response($data, 200);
     }
 
-
     public function store(Request $request) {
-        
-        $products = new product();
+        $request->validate([
+            'name' => ['required'],
+            'category' => ['required'],
+            'thumbnail_image' => ['required'],
+        ]);
 
-        $products->name = $request->name;
-        $products->category = $request->category;
-        $products->thumbnail_image = $request->thumbnail_image ?? 'image.jpg';
+        $product = new Product();
 
-        $products->save();
+        $product->name = $request->name;
+        $product->category = $request->category;
+        $product->thumbnail_image = $request->tuhumbnail_image ?? 'image.jpg';
 
-        return response($products, 200);
+        $product->save();
+
+        return response($product, 200);
     }
-
 
     public function update(Request $request, $id) {
+        $request->validate([
+            'name' => ['required'],
+            'category' => ['required'],
+            'thumbnail_image' => ['required'],
+        ]);
 
-        $products = Product::findorfail($id);
+        $product = Product::findOrFail($id);
 
-        $products->name = $request->name;
-        $products->category = $request->category;
-        $products->thumbnail_image = $request->thumbnail_image ?? 'image.jpg';
+        $product->name = $request->name;
+        $product->category = $request->category;
+        $product->thumbnail_image = $request->tuhumbnail_image ?? 'image.jpg';
 
-        $products->save();
+        $product->save();
 
-        return response($products, 200);
+        return response($product, 200);
     }
 
-    public function show ($id) {
+    public function show($id) {
+        $product = Product::findOrFail($id);
 
-        $products = Product::findOrFail($id);
-
-        return response($products, 200);
+        return response($product, 200);
     }
 
     public function destroy($id) {
+        $product = Product::findOrFail($id);
 
-        $products = Product::findOrFail($id);
-
-        $products->delete();
+        $product->delete();
 
         return response('Data Berhasil Dihapus!', 200);
-
     }
 }

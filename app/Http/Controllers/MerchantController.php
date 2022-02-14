@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 
 class MerchantController extends Controller
 {
+
     public function index() {
         $data = Merchant::all();
 
@@ -15,7 +16,6 @@ class MerchantController extends Controller
     }
 
     public function store(Request $request) {
-
         $request->validate([
             'name' => ['required'],
             'email' => ['email', 'required'],
@@ -28,7 +28,7 @@ class MerchantController extends Controller
         $merchant->email = $request->email;
         $merchant->password = Hash::make($request->password);
         $merchant->photo_profile = $request->photo_profile ?? 'user.jpg';
-        $merchant->status = $request->status;
+        // $merchant->status = $request->status;
 
         $merchant->save();
 
@@ -36,21 +36,25 @@ class MerchantController extends Controller
     }
 
     public function update(Request $request, $id) {
+        $request->validate([
+            'name' => ['required'],
+            'email' => ['email', 'required'],
+            'password' => ['required'],
+        ]);
 
-        $merchant = Merchant::find($id);
+        $merchant = Merchant::findOrFail($id);
 
         $merchant->name = $request->name;
         $merchant->email = $request->email;
         $merchant->password = Hash::make($request->password);
         $merchant->photo_profile = $request->photo_profile ?? 'user.jpg';
-        $merchant->status = $request->status;
 
         $merchant->save();
 
         return response($merchant, 200);
     }
 
-    public function show ($id) {
+    public function show($id) {
 
         $merchant = Merchant::findOrFail($id);
 
@@ -64,6 +68,5 @@ class MerchantController extends Controller
         $merchant->delete();
 
         return response('Data Berhasil Dihapus!', 200);
-
     }
 }
